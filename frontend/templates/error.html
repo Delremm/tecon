@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block layout %}
+
+<div class="container-fluid">
+    <div class="hero-unit">
+        <h1>{% block error_heading %}{% trans 'Приносим извенения!' %}{% endblock %}</h1>
+        {% block error_message %}{% endblock %}
+        <p>
+            <a class="btn btn-primary btn-large" onclick="javascript:history.go(-1);">{% trans 'К предыдушей странице' %}</a>
+            <a class="btn btn-primary btn-large" href="/">{% trans "На главную" %}</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

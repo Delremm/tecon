@@ -1,0 +1,1 @@
+lessc frontend/static/frontend/less/styles.less > frontend/static/frontend/css/styles.css 

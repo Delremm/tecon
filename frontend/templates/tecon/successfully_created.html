@@ -1,0 +1,11 @@
+{% extends "tecon/tecon_base.html" %}
+
+{% block body_attrs %}ng-app{% endblock %}
+{% block content %}
+  <div class="row">
+    <a href="{% url 'tecon:main' %}" class="btn">На главную</a>
+    <hr>
+    <h2>Тест успешно создан.</h2>
+    <hr>
+  </div>
+{% endblock %}

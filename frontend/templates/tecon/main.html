@@ -1,0 +1,10 @@
+{% extends "tecon/tecon_base.html" %}
+
+{% block content %}
+<div>
+    <a href="{% url 'tecon:create_test' %}" class="btn btn-primary">Создать тест</a>
+</div>
+<div>
+    <a href="{% url 'tecon:user_tests' %}">мои тесты</a>
+</div>
+{% endblock %}

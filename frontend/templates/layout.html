@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load compress %}
+{% load sekizai_tags %}
+
+{% block layout %}
+
+
+    {% block content_wrapper %}
+    <div class="container-fluid" id="page">
+        {% block page_inner %}
+        <div class="page_inner">
+            {% block header %}
+            <div class="page-header action">
+                <h1>{% block headertext %}{{ site_name }}</h1>
+                <h4>{{ site_tagline }}{% endblock %}</h4>
+            </div>
+            {% endblock %}
+            <div class="content">
+                {% block subheader %}{% endblock subheader %}
+                <div id="content_inner">{% block content %}{% endblock %}</div>
+            </div>
+        </div>
+        {% endblock %}
+    </div>
+    {% endblock %}
+
+    {% include "partials/footer.html" %}
+{% endblock %}

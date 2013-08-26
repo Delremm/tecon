@@ -1,0 +1,79 @@
+{% load analytics i18n compress %}
+{% load cms_tags %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="{{ lang|default:"ru" }}">
+    <head>
+        <title>{% block title %}{{ site_name }} - {{ site_tagline }}{% endblock %}</title>
+
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+        <meta name="created" content="{% now "jS M Y h:i" %}" />
+        <meta name="description" content="{% block description %}{% endblock %}" />
+        <meta name="keywords" content="{% block keywords %}{% endblock %}" />
+        <meta name="viewport" content="{% block viewport %}width=device-width"{% endblock %}>
+
+        {% block favicon %}
+            <link rel="shortcut icon" href="{% static "frontend/favicon.ico" %}" />
+        {% endblock %}
+
+        {% block mainstyles %}
+            {% block styles %}
+                {% compress css %}
+                    {% if use_less %}
+                        <link rel="stylesheet" type="text/less" href="{% static "frontend/less/styles.less" %}" />
+                    {% else %}
+                        <link rel="stylesheet" type="text/css" href="{% static "frontend/css/styles.css" %}" />
+                    {% endif %}
+                {% endcompress %}
+                {# django-cms stypes #}
+            {% endblock %}
+        {% endblock %}
+        {# Additional CSS - specific to certain pages #}
+        {% block extrastyles %}{% endblock %}
+
+        {% block extrahead %}{% endblock %}
+    </head>
+
+    <body id="{% block body_id %}default{% endblock %}" class="{% block body_class %}default{% endblock %}" {% block body_attrs %}{% endblock %}>
+        {# Main content goes in this 'layout' block #}
+        {% cms_toolbar %}
+        {% placeholder layout %}
+        {% block layout %}{% endblock %}
+
+        {% block tracking %}
+            {# Default to using Google analytics #}
+            {% analytics_async %}
+        {% endblock %}
+
+        {% comment %}
+        Scripts loaded from a CDN.  These can't be wrapped by the 'compress' tag and so we
+        use a separate block for them.
+        {% endcomment %}
+        {% block cdn_scripts %}
+            <!-- jQuery -->
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+            <!-- Angular -->
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular.min.js"></script>
+            <!-- Twitter Bootstrap CDN-->
+            <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+            <script>$.fn.modal || document.write('<script src="{% static "frontend/js/bootstrap/bootstrap.min.js"><\/script>')</script>
+            <script>window.jQuery || document.write('<script src="{% static "frontend/js/jquery/jquery-2.0.3.min.js" %}"><\/script>')</script>
+        {% endblock %}
+
+        {# Local scripts #}
+        {% block scripts %}
+            {% compress js %}
+            <script src="{% static "frontend/js/scripts.js" %}" type="text/javascript" charset="utf-8"></script>
+            {% endcompress %}
+        {% endblock %}
+        {# Additional JS scripts #}
+        {% block extrascripts %}{% endblock %}
+
+        {# Block for body onload functions #}
+        <script type="text/javascript">
+            $(function() {
+                {% block onbodyload %}{% endblock %}
+            });
+        </script>
+    </body>
+</html>

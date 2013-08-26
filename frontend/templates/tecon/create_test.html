@@ -1,0 +1,40 @@
+{% extends "tecon/tecon_base.html" %}
+
+{% block body_attrs %}ng-app{% endblock %}
+{% block content %}
+  <div class="row">
+    <a href="{% url 'tecon:main' %}" class="btn">Назад</a>
+    <hr>
+    <form action="{% url 'tecon:create_test' %}" method="post">
+    {% csrf_token %}
+    {{ test_form.as_p }}
+    {% verbatim %}
+    <div ng-controller="TeconCntl">
+    <div ng-repeat="question in questions">
+      <div class="tecon_question" id="tecon_question_{{ $index }}">
+        <label>Вопрос {{$index+1}}</label>
+        <input type="text" ng-model="question.title" required class="input-xxlarge">
+        <a href="#tecon_qestion_{{ $index-1 }}" ng-click="remove_question(question)" class="tecon_remove_question">удалить вопрос</a>
+        <div class="tecon_variants">
+          <div ng-repeat="variant in question.variants" class="tecon_question_variant">
+            <label>{{ $index + 1 }} вариант ответа</label>
+            <input type="text" ng-model="variant.text" required class="input-xlarge">
+            <a href="#tecon_add_variant_{{$index}}" ng-click="remove_variant(variant, question)">x</a>
+            <label class="is_answer_label">Является ответом</label>
+            <input type="checkbox" ng-model="variant.is_answer">
+          </div>
+        </div>
+        <a href="#tecon_add_variant_{{ $index }}" ng-click="add_variant($index)" id="tecon_add_variant_{{ $index }}" class="btn">добавить вариант ответа</a>
+      </div>
+    </div>
+
+    <a href="#add_question" ng-click="add_question()" id="add_question">добавить вопрос</a>
+    <input type="hidden" name="data" value="{{ questions }}">
+    </div>
+    {% endverbatim %}
+    <hr>
+    <input type="submit" value="Submit" class="btn btn-primary"/>
+    </form>
+    <hr>
+  </div>
+{% endblock %}
