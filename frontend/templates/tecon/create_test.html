@@ -1,16 +1,33 @@
 {% extends "tecon/tecon_base.html" %}
+{% load staticfiles %}
 
 {% block body_attrs %}ng-app{% endblock %}
 {% block content %}
   <div class="row">
     <a href="{% url 'tecon:main' %}" class="btn">Назад</a>
     <hr>
-    <form action="{% url 'tecon:create_test' %}" method="post">
+    <form action="{% url 'tecon:create_test' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ test_form.as_p }}
     {% verbatim %}
-    <div ng-controller="TeconCntl">
-    <div ng-repeat="question in questions">
+    <div ng-controller="CreateTestCntl">
+    <div>
+    <span class="btn btn-success fileinput-button">
+        <i class="glyphicon glyphicon-plus"></i>
+        <span>Select files...</span>
+        <!-- The file input field used as target for the file upload widget -->
+        <input id="fileupload" type="file" name="files[]" imageprefix="main image">
+    </span>
+    <br>
+    <br>
+    <!-- The global progress bar -->
+    <div id="progress" class="progress">
+        <div class="progress-bar progress-bar-success"></div>
+    </div>
+    <!-- The container for the uploaded files -->
+    <div id="files" class="files"></div>
+    </div>
+    <div ng-repeat="question in new_test_data.questions">
       <div class="tecon_question" id="tecon_question_{{ $index }}">
         <label>Вопрос {{$index+1}}</label>
         <input type="text" ng-model="question.title" required class="input-xxlarge">
@@ -27,9 +44,8 @@
         <a href="#tecon_add_variant_{{ $index }}" ng-click="add_variant($index)" id="tecon_add_variant_{{ $index }}" class="btn">добавить вариант ответа</a>
       </div>
     </div>
-
     <a href="#add_question" ng-click="add_question()" id="add_question">добавить вопрос</a>
-    <input type="hidden" name="data" value="{{ questions }}">
+    <input type="hidden" name="data" value="{{ new_test_data }}">
     </div>
     {% endverbatim %}
     <hr>
@@ -37,4 +53,60 @@
     </form>
     <hr>
   </div>
+{% endblock %}
+
+
+
+{# Additional JS scripts #}
+{% block extrascripts %}
+    {# jquery-file-upload #}
+    <script src="{% static "frontend/js/jquery/vendor/jquery.ui.widget.js" %}"></script>
+    <script src="{% static "frontend/js/jquery/jquery.iframe-transport.js" %}"></script>
+    <script src="{% static "frontend/js/jquery/jquery.fileupload.js" %}"></script>
+
+    <script src="http://vk.com/js/api/xd_connection.js?2" type="text/javascript"></script>
+    <script type="text/javascript">
+        VK.init(function() {
+         // API initialization succeeded
+         // Your code here
+        });
+    </script>
+    <script>
+        $(function () {
+            'use strict';
+            // Change this to the location of your server-side upload handler:
+            var url = "{% url 'tecon_api:upload_image' %}";
+            console.log(url);
+            $('#fileupload').fileupload({
+                url: url,
+                dataType: 'json',
+                done: function (e, data) {
+                    $('<p/>').text(data.result).appendTo('#files');
+                    console.log(data.result);
+                },
+                progressall: function (e, data) {
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $('#progress .progress-bar').css(
+                        'width',
+                        progress + '%'
+                    );
+                },
+                formData: function (form) {
+                    console.log(form);
+                    console.log($(this).parent().parent())
+                    var ggg = $(this).attr('imageprefix');
+                    console.log(ggg);
+                    console.log($(this).attr('imageprefix'));
+                    return [{
+                        name: "csrfmiddlewaretoken",
+                        value: document.getElementsByName('csrfmiddlewaretoken')[0].value
+                    },
+                    {
+                        attr: $(this).attr('image_prefix'),
+                    }]
+                }
+            }).prop('disabled', !$.support.fileInput)
+                .parent().addClass($.support.fileInput ? undefined : 'disabled');
+        });
+    </script>
 {% endblock %}

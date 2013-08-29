@@ -1,0 +1,41 @@
+{% extends "tecon/tecon_base.html" %}
+
+{% block body_attrs %}ng-app="teconApp" ng-cloak{% endblock %}
+{% block content %}
+    <a href="{% url 'tecon:main' %}" class="btn">на главную</a>
+    <h2>{{ test.title }}</h2>
+    {% verbatim %}
+    <div ng-controller=TestDetailsCtrl>
+      <ol>
+        <li ng-repeat="question in test_data.questions">
+          <p>{{ question.title }}</p>
+          <div>
+            <div ng-repeat="variant in question.variants">
+              <input type="radio" name="{{$parent.$index}}" value="{{$index}}" ng-model="answers[$parent.$index]"> {{ variant.text }}
+            </div>
+          </div>
+        </li>
+      </ol>
+      <button ng-click="check_answers()">Проверить тест</button>
+      <h3>{{ result }}</h3>
+      <hr>
+    </div>
+    {% endverbatim %}
+    <a href="{% url 'tecon_api:test-detail' 1 %}?format=json" class="btn">на главную</a>
+{% endblock %}
+
+
+
+{# Additional JS scripts #}
+{% block extrascripts %}
+    <script>
+      var test_data = '{{ test.data|safe }}';
+    </script>
+    <script src="http://vk.com/js/api/xd_connection.js?2" type="text/javascript"></script>
+    <script type="text/javascript">
+        VK.init(function() {
+         // API initialization succeeded
+         // Your code here
+        });
+    </script>
+{% endblock %}

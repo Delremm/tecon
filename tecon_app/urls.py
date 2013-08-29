@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
 from tecon_app import views
 
@@ -13,4 +13,7 @@ urlpatterns = patterns(
         r'^successfully_created/$',
         TemplateView.as_view(template_name='tecon/successfully_created.html'),
         name='success_test_creation'),
+    url(
+        r'^tests/(?P<test_id>\d+)/$',
+        views.TestDetailView.as_view(), name="test_details"),
 )

@@ -1,5 +1,12 @@
 {% extends 'layout.html' %}
+{% load staticfiles compress %}
 
+{% block extrastyles %}
+{% compress css %}
+    <link rel="stylesheet" type="text/css" href="{% static "frontend/css/jquery-file-upload/style.css" %}" />
+    <link rel="stylesheet" type="text/css" href="{% static "frontend/css/jquery-file-upload/jquery.fileupload-ui.css" %}" />
+{% endcompress %}
+{% endblock %}
 {# Additional JS scripts #}
 {% block extrascripts %}
     <script src="http://vk.com/js/api/xd_connection.js?2" type="text/javascript"></script>

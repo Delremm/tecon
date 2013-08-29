@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     # Django admin
     url(r'^admin/', include(admin.site.urls)),
 
+    url(r'^tecon/api/', include('tecon_app.api.urls', namespace='tecon_api')),
     url(r'^tecon/', include('tecon_app.urls', namespace='tecon')),
 
     # Test pages

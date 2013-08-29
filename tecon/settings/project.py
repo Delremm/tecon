@@ -37,6 +37,7 @@ INSTALLED_APPS += (
     'google_analytics',
     'crispy_forms',
     'vk_iframe',
+    'rest_framework',
     #django-cms
     'menus',
     'sekizai',
@@ -121,6 +122,16 @@ MIDDLEWARE_CLASSES = (
     'cms.middleware.language.LanguageCookieMiddleware',
 )
 
+# 'vk_iframe.middleware.LoginRequiredMiddleware' anauthenticated urls
 PUBLIC_URLS = [
     '^admin/$',
 ]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    'PAGINATE_BY': 10,
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
+}

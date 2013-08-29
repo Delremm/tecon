@@ -3,6 +3,7 @@
 from django.views import generic
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.shortcuts import get_object_or_404
 from braces.views import LoginRequiredMixin
 
 from tecon_app.forms import TrialForm
@@ -45,3 +46,19 @@ class CreateTestView(TeconBase):
 
 class UserTestsView(TeconBase):
     template_name = "tecon/user_tests.html"
+
+    def get_context_data(self, **kwargs):
+        ctx = super(
+            UserTestsView, self).get_context_data(**kwargs)
+        ctx['tests'] = Trial.objects.filter(user=self.request.user)
+        return ctx
+
+
+class TestDetailView(TeconBase):
+    template_name = "tecon/test_details.html"
+
+    def get_context_data(self, **kwargs):
+        ctx = super(
+            TestDetailView, self).get_context_data(**kwargs)
+        ctx['test'] = get_object_or_404(Trial, id=kwargs.get('test_id', None))
+        return ctx
