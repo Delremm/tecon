@@ -1,0 +1,16 @@
+{% extends "tecon/tecon_base.html" %}
+
+{% block content %}
+<div>
+        <a href="{% url 'tecon:main' %}" class="btn">на главную</a>
+</div>
+<hr>
+<div>
+    <form action='{% url "tecon:delete_test" object.id %}' method='post'>
+        {% csrf_token %}
+        <h4>Название теста: </h4><p>{{ object.title }}</p>
+        <button class="btn btn-danger">Удалить <i class="glyphicon glyphicon-remove"></i></button>
+    </form>
+    <a href="{% url 'tecon:user_tests' %}">мои тесты</a>
+</div>
+{% endblock %}

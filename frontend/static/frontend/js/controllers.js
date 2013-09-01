@@ -10,6 +10,10 @@ angular.module('teconApp.controllers', []).controller(
                         text: "",
                         is_answer: false
                     },
+                    {
+                        text: "",
+                        is_answer: false
+                    },
                 ]
             },
         ]
@@ -25,6 +29,10 @@ angular.module('teconApp.controllers', []).controller(
         var question = {
             title: "",
             variants: [
+                {
+                    text: "",
+                    is_answer: false
+                },
                 {
                     text: "",
                     is_answer: false

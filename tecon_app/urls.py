@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from django.conf.urls import patterns, include, url
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DeleteView
 from tecon_app import views
 
 urlpatterns = patterns(
@@ -17,9 +17,9 @@ urlpatterns = patterns(
         r'^tests/(?P<test_id>\d+)/$',
         views.TestDetailView.as_view(), name="test_details"),
     url(
-        r'^tests/(?P<test_id>\d+)/$',
-        views.TestDetailView.as_view(), name="test_details"),
-    url(
         r'^tests/edit/(?P<test_id>\d+)/$',
         views.EditTestView.as_view(), name="edit_test"),
+    url(
+        r'^tests/delete/(?P<test_id>\d+)/$',
+        views.DeleteTestView.as_view(), name="delete_test"),
 )

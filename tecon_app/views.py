@@ -2,7 +2,7 @@
 
 from django.views import generic
 from django.http import HttpResponseRedirect, Http404
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import get_object_or_404
 from braces.views import LoginRequiredMixin
 
@@ -89,6 +89,28 @@ class EditTestView(TeconBase):
             trial.title = form.cleaned_data['title']
             trial.description = form.cleaned_data['description']
             trial.data = request.POST.get('data', '')
+            print trial, trial.id
             trial.save()
             return HttpResponseRedirect(reverse('tecon:success_test_creation'))
         return self.render_to_response(ctx)
+
+
+class DeleteTestView(LoginRequiredMixin, generic.DeleteView):
+    #login_required mixin settings
+    raise_exception = True
+
+    template_name = 'tecon/delete_test_confirmation.html'
+    success_url = reverse_lazy('tecon:user_tests')
+
+    def get_object(self, queryset=None):
+        """ Hook to ensure object is owned by request.user. """
+        obj = get_object_or_404(Trial, id=self.kwargs.get('test_id', None))
+        if not obj.user == self.request.user:
+            raise Http404
+        return obj
+
+    # def get_context_data(self, **kwargs):
+    #     ctx = super(
+    #         DeleteTestView, self).get_context_data(**kwargs)
+    #     ctx['test'] = get_object_or_404(Trial, id=kwargs.get('test_id', None))
+    #     return ctx

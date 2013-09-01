@@ -1,7 +1,13 @@
 {% extends "tecon/tecon_base.html" %}
 
 {% block content %}
+<div>
+<a href="{% url 'tecon:main' %}" class="btn">Назад</a>
+</div>
+<hr>
 {% for test in tests %}
-    <p><a href="{% url 'tecon:test_details' test_id=test.id %}">{{ test.title }}</a> создан: {{ test.created }}</p>
+    <p><a href="{% url 'tecon:test_details' test_id=test.id %}">{{ test.title }}</a> создан: {{ test.created }}
+        <a href="{% url 'tecon:edit_test' test_id=test.id %}">редактировать</a>
+    </p> 
 {% endfor %}
 {% endblock %}
