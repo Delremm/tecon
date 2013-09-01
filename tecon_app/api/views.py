@@ -1,8 +1,18 @@
+import datetime
+import os
+
 from rest_framework import viewsets, permissions
 from rest_framework import views
 from rest_framework.response import Response
 from tecon_app.api.serializers import TrialSerializer
 from tecon_app.models import Trial
+
+from django.conf import settings
+from django.utils.encoding import force_unicode
+from django.core.files.storage import default_storage
+
+from filer.utils.files import get_valid_filename
+
 
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
@@ -30,14 +40,20 @@ class TestViewSet(viewsets.ModelViewSet):
 class FileUploadView(views.APIView):
 
     def post(self, request, *args, **kwargs):
-        file_obj = request.FILES.values()[0]
-
-        print file_obj
-        # ...
-        # do some staff with uploaded file
-        # ...
-        return Response(str(request.POST), status=202)
+        path = self.handle_uploaded_file(request.FILES.values()[0])
+        print request.FILES.values()
+        return Response(str(path.replace(
+            settings.MEDIA_ROOT, settings.MEDIA_URL)), status=202)
 
     def get(self, request, *args, **kwargs):
-        print 'hett'
         return Response(str(request.POST), status=203)
+
+    def handle_uploaded_file(self, file_obj):
+        path = '%s%s' % (settings.MEDIA_ROOT, self.by_date(file_obj.name))
+        print path
+        file_path = default_storage.save(path, file_obj)
+        return file_path
+
+    def by_date(self, filename):
+        datepart = force_unicode(datetime.datetime.now().strftime("%Y/%m/%d"))
+        return os.path.join(datepart, get_valid_filename(filename))

@@ -10,7 +10,7 @@
     {% csrf_token %}
     {{ test_form.as_p }}
     {% verbatim %}
-    <div ng-controller="CreateTestCntl">
+    <div ng-controller="EditTestCntl">
     <div>
     <label>Картинка для теста:</label>
             <span class="btn btn-success fileinput-button">
@@ -88,6 +88,7 @@
 
     <script src="http://vk.com/js/api/xd_connection.js?2" type="text/javascript"></script>
     <script type="text/javascript">
+        var test_data = '{{ test.data|safe }}';
         VK.init(function() {
          // API initialization succeeded
          // Your code here

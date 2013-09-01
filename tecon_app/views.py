@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from django.views import generic
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from braces.views import LoginRequiredMixin
@@ -62,3 +62,33 @@ class TestDetailView(TeconBase):
             TestDetailView, self).get_context_data(**kwargs)
         ctx['test'] = get_object_or_404(Trial, id=kwargs.get('test_id', None))
         return ctx
+
+
+class EditTestView(TeconBase):
+    template_name = 'tecon/edit_test.html'
+
+    def get_context_data(self, **kwargs):
+        ctx = super(
+            EditTestView, self).get_context_data(**kwargs)
+        trial = get_object_or_404(Trial, id=kwargs.get('test_id', None))
+        ctx['test'] = trial
+        ctx['test_form'] = TrialForm(instance=trial)
+        return ctx
+
+    def get(self, request, *args, **kwargs):
+        ctx = self.get_context_data(**kwargs)
+        if not (request.user == ctx['test'].user):
+            raise Http404
+        return self.render_to_response(ctx)
+
+    def post(self, request, *args, **kwargs):
+        ctx = self.get_context_data(**kwargs)
+        form = TrialForm(request.POST or None)
+        if form.is_valid():
+            trial = ctx['test']
+            trial.title = form.cleaned_data['title']
+            trial.description = form.cleaned_data['description']
+            trial.data = request.POST.get('data', '')
+            trial.save()
+            return HttpResponseRedirect(reverse('tecon:success_test_creation'))
+        return self.render_to_response(ctx)

@@ -1,7 +1,7 @@
-function CreateTestCntl($scope, $http) {
-    $scope.qty = 1;
-    $scope.cost = 19.95;
+angular.module('teconApp.controllers', []).controller(
+        'CreateTestCntl', ['$scope', '$rootScope', 'testManager', function($scope, $rootScope, $eval, testManager) {
     $scope.new_test_data = {
+        main_image_url: '',
         questions: [
             {
                 title: "",
@@ -54,12 +54,12 @@ function CreateTestCntl($scope, $http) {
             }
         }
     };
-    $scope.options = {
-        url: '/tecon/api/upload_image/'
+    $scope.remove_main_image = function(img_model){
+        $scope.new_test_data.main_image_url = '';
+        $scope.$digest();
     }
-};
 
-function TestDetailsCtrl($scope){
+}]).controller('TestDetailsCtrl', ['$scope', function($scope){
     /*
     test_data -- dict with "questions" key which contains list of questions
     */
@@ -122,4 +122,52 @@ function TestDetailsCtrl($scope){
         }
         $scope.checked = true;
     }
-};
+}]).controller(
+        'EditTestCntl', ['$scope', '$rootScope', 'testManager', function($scope, $rootScope, $eval, testManager) {
+    $scope.new_test_data = JSON.parse(test_data);
+    $scope.add_variant = function(index){
+        var variant = {
+            text: "",
+            is_answer: false
+        };
+        $scope.new_test_data.questions[index].variants.push(variant);
+    }
+    $scope.add_question = function(questions){
+        var question = {
+            title: "",
+            variants: [
+                {
+                    text: "",
+                    is_answer: false
+                },
+            ]
+        };
+        $scope.new_test_data.questions.push(question);
+    };
+    $scope.remove_question = function(question) {
+        var questions = $scope.new_test_data.questions;
+        for (var i = 0, ii = questions.length; i < ii; i++) {
+          if (question === questions[i]) {
+            questions.splice(i, 1);
+          }
+        }
+    };
+    $scope.remove_variant = function(variant, question){
+        var questions = $scope.new_test_data.questions;
+        for (var i = 0, ii = questions.length; i<ii; i++) {
+            if (question === questions[i]) {
+                var variants = questions[i].variants;
+                for (var j=0, jj=variants.length; j<jj; j++) {
+                    if (variant === variants[j]) {
+                        variants.splice(j, 1);
+                    }
+                }
+            }
+        }
+    };
+    $scope.remove_main_image = function(img_model){
+        $scope.new_test_data.main_image_url = '';
+        $scope.$digest();
+    }
+
+}]);

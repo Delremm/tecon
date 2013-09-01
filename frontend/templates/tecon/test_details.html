@@ -4,11 +4,13 @@
 {% block content %}
     <a href="{% url 'tecon:main' %}" class="btn">на главную</a>
     <h2>{{ test.title }}</h2>
+    <hr>
     {% verbatim %}
     <div ng-controller=TestDetailsCtrl>
       <ol>
         <li ng-repeat="question in test_data.questions">
           <p>{{ question.title }}</p>
+          <img ng-src="{{question.image_url}}">
           <div>
             <div ng-repeat="variant in question.variants">
               <input type="radio" name="{{$parent.$index}}" value="{{$index}}" ng-model="answers[$parent.$index]"> {{ variant.text }}
@@ -16,7 +18,7 @@
           </div>
         </li>
       </ol>
-      <button ng-click="check_answers()">Проверить тест</button>
+      <button ng-click="check_answers()" class="btn btn-primary">Проверить тест</button>
       <h3>{{ result }}</h3>
       <hr>
     </div>
@@ -33,9 +35,9 @@
     </script>
     <script src="http://vk.com/js/api/xd_connection.js?2" type="text/javascript"></script>
     <script type="text/javascript">
-        VK.init(function() {
-         // API initialization succeeded
-         // Your code here
-        });
+        // VK.init(function() {
+        //  // API initialization succeeded
+        //  // Your code here
+        // });
     </script>
 {% endblock %}
