@@ -13,11 +13,16 @@
           <img ng-src="{{question.image_url}}">
           <div>
             <div ng-repeat="variant in question.variants">
-              <input type="radio" name="{{$parent.$index}}" value="{{$index}}" ng-model="answers[$parent.$index]"> {{ variant.text }}
+              <input type="radio" name="{{ $parent.$parent.$index }}" answer-input 
+               this-question-type="question.type" question-types="question_types"
+               answers="answers" question-index="{{ $parent.$parent.$index }}" variant-index="{{ $parent.$index }}">
+               {{ variant.text }}
             </div>
           </div>
+          <hr>
         </li>
       </ol>
+      {{ answers }}
       <button ng-click="check_answers()" class="btn btn-primary">Проверить тест</button>
       <h3>{{ result }}</h3>
       <hr>
@@ -31,7 +36,8 @@
 {# Additional JS scripts #}
 {% block extrascripts %}
     <script>
-      var test_data = '{{ test.data|safe }}';
+      var test_data_exists = true;
+      var test_data_url = "{% url 'tecon_api:test-detail' test.id %}?format=json"
     </script>
     <script src="http://vk.com/js/api/xd_connection.js?2" type="text/javascript"></script>
     <script type="text/javascript">

@@ -9,59 +9,7 @@
     <form action="{% url 'tecon:create_test' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ test_form.as_p }}
-    {% verbatim %}
-    <div ng-controller="CreateTestCntl">
-    <div>
-    <label>Картинка для теста:</label>
-            <span class="btn btn-success fileinput-button">
-                <i class="glyphicon glyphicon-plus"></i>
-                <input type="file" name="file" data-url="/tecon/api/upload_image/"
-                multiple upload image-model="new_test_data.main_image_url"><span>Загрузить</span>
-            </span>
-            <div>
-            <img ng-src="{{ new_test_data.main_image_url }}" ng-show="new_test_data.main_image_url">
-                <a href="" ng-click="new_test_data.main_image_url=''" ng-show="new_test_data.main_image_url">
-                <i class="glyphicon glyphicon-remove"></i>
-                </a>
-            </div>
-    </div>
-    <hr>
-    <div ng-repeat="question in new_test_data.questions">
-      <div class="tecon_question" id="tecon_question_{{ $index }}">
-        <h3>Вопрос {{$index+1}}</h3>
-        <input type="text" ng-model="question.title" required class="input-xxlarge">
-        <a href="#tecon_qestion_{{ $index-1 }}" ng-click="remove_question(question)" class="tecon_remove_question">удалить вопрос</a>
-        <div>
-    <label>Картинка для вопроса:</label>
-            <span class="btn fileinput-button">
-                <i class="glyphicon glyphicon-plus"></i>
-                <input type="file" name="file" data-url="/tecon/api/upload_image/"
-                multiple upload image-model="question.image_url"><span>Загрузить</span>
-            </span>
-            <div>
-            <img ng-src="{{ question.image_url }}" ng-show="question.image_url">
-                <a href="" ng-click="question.image_url=''" ng-show="question.image_url">
-                <i class="glyphicon glyphicon-remove"></i>
-                </a>
-            </div>
-    </div>
-        <div class="tecon_variants">
-          <div ng-repeat="variant in question.variants" class="tecon_question_variant">
-            <label>{{ $index + 1 }} вариант ответа</label>
-            <input type="text" ng-model="variant.text" required class="input-xlarge">
-            <a href="#tecon_add_variant_{{$index}}" ng-click="remove_variant(variant, question)">x</a>
-            <label class="is_answer_label">Является ответом</label>
-            <input type="checkbox" ng-model="variant.is_answer">
-          </div>
-        </div>
-        <a href="#tecon_add_variant_{{ $index }}" ng-click="add_variant($index)" id="tecon_add_variant_{{ $index }}" class="btn">добавить вариант ответа</a>
-      </div>
-    </div>
-    <hr>
-    <a href="#add_question" ng-click="add_question()" id="add_question" class="btn">добавить вопрос</a>
-    <input type="hidden" name="data" value="{{ new_test_data }}">
-    </div>
-    {% endverbatim %}
+    {% include 'tecon/partials/create_edit_test.html' %}
     <hr>
     <input type="submit" value="Submit" class="btn btn-primary"/>
     </form>
@@ -88,6 +36,8 @@
 
     <script src="http://vk.com/js/api/xd_connection.js?2" type="text/javascript"></script>
     <script type="text/javascript">
+        var test_data_url = '';
+        var test_data_exists = false;
         VK.init(function() {
          // API initialization succeeded
          // Your code here
