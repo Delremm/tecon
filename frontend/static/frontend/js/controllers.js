@@ -1,9 +1,11 @@
 question_types = [
     {
+        type_id: 1,
         title: 'выбор одного варианта',
         description: 'Выбор одного варианта из предложенных, под правильным вариантом поставьте галочку "является ответом"'
     },
     {
+        type_id: 2,
         title: 'выбор нескольких вариантов',
         description: 'Выбор одного или нескольких вариантов, под правильными вариантами поставьте галочку'
     }
@@ -81,7 +83,9 @@ angular.module('teconApp.controllers', []).controller(
     }
 
 
-}]).controller('TestDetailsCtrl', ['$scope', '$http', 'testManager', function($scope, $http, testManager){
+}]).controller(
+    'TestDetailsCtrl',
+    ['$scope', '$http', '$rootScope', 'testManager', function($scope, $http, $rootScope, testManager){
     /*
     test_data -- dict with "questions" key which contains list of questions
     */
@@ -97,57 +101,75 @@ angular.module('teconApp.controllers', []).controller(
 
     $scope.answers = [];
     $scope.result = '';
+    $rootScope.test_checked = false;
     $scope.question_types = question_types;
     function get_right_answer(question_num){
         var question = $scope.test_data.questions[question_num];
         var answer = {
-            index: '',
-            value: ''
+            indexes: [],
+            values: []
         };
-        for (i in question.variants){
+        for (var i in question.variants){
             if (question.variants[i].is_answer){
-                answer.value = question.variants[i].text;
-                answer.index = i;
+                answer.values.push(question.variants[i]);
+                answer.indexes.push(i);
             }
         };
         return answer
     };
     function all_answered(){
+        /* check if all questions are answered */
         var questions_num = $scope.test_data.questions.length;
         var answers = [];
+        //answers must have no "null" elements, this is why "if ($scope.answers[i])" 
         for (i in $scope.answers){
             if ($scope.answers[i]){
                 answers.push($scope.answers[i]);
             }
         };
-        if (questions_num == answers.length){
-            return true
-        }
-        else{
-            return false
-        }
+        return (questions_num == answers.length)?true:false;
     }
     $scope.check_answers = function(){
-        var errors = []
-        for (answer_i in $scope.answers){
-            if ($scope.test_data.questions[answer_i].variants[parseInt($scope.answers[answer_i])]){
-                if (get_right_answer(answer_i).index != $scope.answers[answer_i]){
-                    var user_answer = {
-                        question: answer_i,
-                        right: get_right_answer(answer_i).index,
-                        users: $scope.answers[answer_i]
-                    };
-                    errors.push(user_answer);
+        var errors = [];
+        if (all_answered()){
+            for (var answer_i in $scope.answers){
+                var user_answer = $scope.answers[answer_i]
+                var right_answer = get_right_answer(answer_i);
+                var user_is_right = true;
+                console.log('user_answer: ', user_answer);
+                console.log('right_answer: ', right_answer.indexes);
+                if (user_answer.length == right_answer.indexes.length) {
+                    for (var i in right_answer.indexes) {
+                        console.log((user_answer.indexOf(right_answer.indexes[i]) == '-1'));
+                        if (user_answer.indexOf(right_answer.indexes[i]) == '-1') {
+                            user_is_right = false;
+                        }
+                    }
+                }
+                else {
+                    user_is_right = false;
                 };
+                if (!user_is_right) {
+                    var wrong_answer = {
+                        question: parseInt(answer_i),
+                        right_answer: right_answer,
+                        user_answer: user_answer
+                    }
+                    errors.push(wrong_answer);
+                }
+            }
+            var questions_num = $scope.test_data.questions.length;
+            $scope.result = {
+                text: ['Верно ', questions_num-errors.length, ' из ', questions_num].join(""),
+                errors: errors
             }
         }
-        var questions_num = $scope.test_data.questions.length;
-        if (all_answered()){
-            $scope.result = ['Верно ', questions_num-errors.length, ' из ', questions_num].join("");
-        }
         else {
-            $scope.result = 'Не на все вопросы даны ответы.';
+            $scope.result = {
+                text: 'Не на все вопросы даны ответы.',
+                errors: ''
+            };
         }
-        $scope.checked = true;
+        $rootScope.test_checked = true;
     }
 }]);

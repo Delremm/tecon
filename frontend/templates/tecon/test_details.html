@@ -3,6 +3,7 @@
 {% block body_attrs %}ng-app="teconApp" ng-cloak{% endblock %}
 {% block content %}
     <a href="{% url 'tecon:main' %}" class="btn">на главную</a>
+    <hr>
     <h2>{{ test.title }}</h2>
     <hr>
     {% verbatim %}
@@ -22,9 +23,22 @@
           <hr>
         </li>
       </ol>
-      {{ answers }}
       <button ng-click="check_answers()" class="btn btn-primary">Проверить тест</button>
-      <h3>{{ result }}</h3>
+      <div>
+        <h3 ng-show="test_checked">{{ result.text }}</h3>
+        <div ng-show="test_checked">
+          <h4 ng-show="result.errors">Ошибки:</h4>
+          <div ng-repeat="error in result.errors">
+            <h5>вопрос №{{ error.question+1 }}</h5>
+            <div>ваш ответ: 
+              <div result-user-answer error-question="error.question" error-answer="error.user_answer" questions="test_data.questions" test-checked="test_checked"></div>
+            </div>
+            <div>правильный ответ:
+              <div result-right-answer right-answer="error.right_answer"></div>
+            </div>
+          </div>
+        </div>
+      </div>
       <hr>
     </div>
     {% endverbatim %}
