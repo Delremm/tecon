@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h2>Поиск</h2>
+<div class="row">
+    <div class="span4">
+        <a href="{% url 'tecon:main' %}" class="btn">На главную</a>
+    </div>
+    <div class="span4">
+        {% if user.is_authenticated %}
+            <a href="{% url 'tecon:user_tests' %}" class="btn">Мои тесты</a>
+        {% endif %}
+    </div>
+    <div class="span4">
+        Поиск: <input type="text">
+    </div>
+</div>
+<hr>
+    <form method="get" action=".">
+        <div>
+            {{ form.as_p }}
+            <p>
+                <input type="submit" value="Поиск">
+            </p>
+
+        </div>
+
+        {% if query %}
+            <h3>Результаты</h3>
+
+            {% for result in page.object_list %}
+                <p>
+                    <a href="{{ result.object.get_absolute_url }}">{{ result.object.title }}</a>
+                </p>
+            {% empty %}
+                <p>Ничего не найдено.</p>
+            {% endfor %}
+
+            {% if page.has_previous or page.has_next %}
+                <div>
+                    {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>{% endif %}
+                    |
+                    {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>{% endif %}
+                </div>
+            {% endif %}
+        {% else %}
+            {# Show some example queries to run, maybe query syntax, something else? #}
+        {% endif %}
+    </form>
+{% endblock %}

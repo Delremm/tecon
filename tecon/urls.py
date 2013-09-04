@@ -2,6 +2,7 @@ from django.conf.urls import *
 from django.conf import settings
 from django.contrib import admin
 from frontend.views import TextFileView, Http500View
+from haystack.views import basic_search
 
 admin.autodiscover()
 
@@ -15,6 +16,11 @@ urlpatterns = patterns('',
 
     url(r'^tecon/api/', include('tecon_app.api.urls', namespace='tecon_api')),
     url(r'^tecon/', include('tecon_app.urls', namespace='tecon')),
+    url(r'^search/$', basic_search, name='search'),
+    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout',
+        {'next_page': settings.LOGOUT_REDIRECT_URL},
+        name="account_logout"),
+    (r'^accounts/', include('allauth.urls')),
 
     # Test pages
     url(r'^500test/$', view=Http500View.as_view()),
@@ -26,7 +32,6 @@ urlpatterns = patterns('',
     url(r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
     url(r'^robots.txt$', TextFileView.as_view(content_type='text/plain', template_name='robots.txt')),
 
-    url(r'^', include('cms.urls')),
 )
 
 if settings.DEBUG:

@@ -1,0 +1,59 @@
+{% extends "tecon/tecon_base.html" %}
+{% load mptt_tags %}
+
+{% block content %}
+<div class="row">
+    {% include 'tecon/partials/search_header.html' %}
+</div>
+<hr>
+<div class="row">
+    <div class="span3">
+        <div>
+            <form method="GET">
+                <select id="sort" name="order" onchange="this.form.submit()" class="input-medium">
+                    <option value="">-Нет-</option>
+                    {% for v in config.tests_sorting %}
+                        <option value="{{ v.name }}"
+                        {% if request.GET.order == v.name %} selected="selected"{% endif %}>
+                            {{ v.title}}
+                        </option>
+                    {% endfor %}
+                </select>
+                <input type="hidden" value="{{ request.GET.category_id }}" name="category_id">
+            </form> 
+        </div>
+        <div>
+            <h3 class="text-center">Категории</h3>
+            <ul class="root">
+                <li>
+                    <a href='{% url "tecon:tests" %}' >все тесты</a>
+                </li>
+                {% recursetree categories %}
+                    <li>
+                        <a href='{% url "tecon:tests" %}?category_id={{ node.id }}' >{{ node.name }}</a>
+                        {% if not node.is_leaf_node %}
+                            <ul class="children">
+                                {{ children }}
+                            </ul>
+                        {% endif %}
+                    </li>
+                {% endrecursetree %}
+            </ul>
+        </div>
+    </div>
+    <div class="span9">
+        {% for test in tests %}
+            <div class="row">
+                <div class="span4">
+                <a href="{% url 'tecon:test_details' test_id=test.id %}">{{ test.title }}</a>
+                </div>
+                <div class="span5"> создан: {{ test.created }}
+                </div>
+            </div>
+            <div class="row">
+                {{ test.description }}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

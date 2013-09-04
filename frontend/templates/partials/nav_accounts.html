@@ -1,0 +1,22 @@
+{% load i18n %}
+
+<div id="top_page" class="navbar navbar-static-top accounts">
+    <div class="navbar-inner">
+
+        <div class="nav-collapse account-collapse">
+            <div class="container-fluid">
+                <ul class="nav pull-right">
+                    {% if user.is_authenticated %}
+                        <li>
+                            <a href="{% url 'tecon:user_tests' %}"><i class="glyphicon glyphicon-user"></i> Аккаунт</a>
+                        </li>
+                        <li><a href="{% url 'account_logout' %}"><i class="glyphicon glyphicon-log-out"></i> Выйти</a></li>
+                    {% else %}
+                        <li><a href="{% url 'account_login' %}"><i class="glyphicon glyphicon-log-in"></i> Войти или зарегистрироваться</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>

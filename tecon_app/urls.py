@@ -16,6 +16,12 @@ urlpatterns = patterns(
     url(
         r'^tests/(?P<test_id>\d+)/$',
         views.TestDetailView.as_view(), name="test_details"),
+    # url(
+    #     r'^category/(?P<category_id>\d+)/$',
+    #     views.TestCategoryView.as_view(), name="test_category"),
+    url(
+        r'^tests/$',
+        views.TestListView.as_view(), name="tests"),
     url(
         r'^tests/edit/(?P<test_id>\d+)/$',
         views.EditTestView.as_view(), name="edit_test"),

@@ -34,38 +34,29 @@ INSTALLED_APPS += (
     'tecon_app',
 
     # Support libs
+    'haystack',
     'google_analytics',
     'crispy_forms',
     'vk_iframe',
     'rest_framework',
-    #django-cms
-    'menus',
-    'sekizai',
+    "categories",
+    "categories.editor",
+    #allauth for sign up
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
     'filer',
     'mptt',
     'easy_thumbnails',
-    'cms',
-    'cms.plugins.text',
-    'cmsplugin_filer_file',
-    'cmsplugin_filer_folder',
-    'cmsplugin_filer_image',
-    'cmsplugin_filer_teaser',
-    'cmsplugin_filer_video',
 
     'django.contrib.admin',
 )
 
-MIDDLEWARE_CLASSES += (
-    'cms.middleware.page.CurrentPageMiddleware',
-    'cms.middleware.user.CurrentUserMiddleware',
-    'cms.middleware.toolbar.ToolbarMiddleware',
-    'cms.middleware.language.LanguageCookieMiddleware',
-)
 
 TEMPLATE_CONTEXT_PROCESSORS += (
     'frontend.context_processors.site',
-    'cms.context_processors.media',
-    'sekizai.context_processors.sekizai',
+    "allauth.account.context_processors.account",
+    "allauth.socialaccount.context_processors.socialaccount",
 )
 
 # Consistent date formatting
@@ -76,14 +67,25 @@ FORMAT_MODULE_PATH = 'tecon.settings.locale'
 
 #site name used in <title>
 SITE_VERBOSE_NAME = u'Конструктор тестов'
-SITE_TAGLINE = u'создавайте тесты и отправляйте друзьям.'
+SITE_TAGLINE = u'просто создавайте тесты, это здорово.'
+SITE_CONFIG = {
+    'tests_sorting': [
+        {
+            'title': 'по дате ^',
+            'name': 'created'
+        },
+        {
+            'title': 'по дате v',
+            'name': '-created'
+        }
+    ]
+}
+
+
+
 
 USE_LESS = False
 
-#django-cms
-CMS_TEMPLATES = (
-    ('cms_template.html', 'Default cms_template'),
-)
 
 THUMBNAIL_PROCESSORS = (
     'easy_thumbnails.processors.colorspace',
@@ -102,6 +104,7 @@ VK_APP_SECRET = 'BQpx965F5cG24dgAQ9dj'  # Secure key
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'vk_iframe.backends.VkontakteUserBackend',
+    "allauth.account.auth_backends.AuthenticationBackend",
 )
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -115,11 +118,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.doc.XViewMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'vk_iframe.middleware.LoginRequiredMiddleware',
-    'cms.middleware.page.CurrentPageMiddleware',
-    'cms.middleware.user.CurrentUserMiddleware',
-    'cms.middleware.toolbar.ToolbarMiddleware',
-    'cms.middleware.language.LanguageCookieMiddleware',
+#    'vk_iframe.middleware.LoginRequiredMiddleware',
 )
 
 # 'vk_iframe.middleware.LoginRequiredMiddleware' anauthenticated urls
@@ -135,3 +134,14 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
     )
 }
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(ROOT_DIR, 'whoosh_index'),
+    },
+}
+
+from allauth_settings import *
+LOGIN_REDIRECT_URL = '/tecon/'
+LOGOUT_REDIRECT_URL = '/tecon/'

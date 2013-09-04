@@ -5,23 +5,55 @@ from django.http import HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import get_object_or_404
 from braces.views import LoginRequiredMixin
-
+from categories.models import Category
 from tecon_app.forms import TrialForm
 from tecon_app.models import Trial
 
 
-class TeconBase(LoginRequiredMixin, generic.TemplateView):
-    """
-    Base class contains LoginRequiredMixin
-    """
-    raise_exception = True
-
-
-class TeconView(TeconBase):
+class TeconView(generic.TemplateView):
     template_name = "tecon/main.html"
 
+    def get_context_data(self, **kwargs):
+        ctx = super(
+            TeconView, self).get_context_data(**kwargs)
+        ctx['categories'] = Category.objects.all()
+        ctx['last_good_tests'] = Trial.objects.filter(
+            status=Trial.STATUS.good).order_by('-created')
+        #ctx['top_rated_tests'] = Trial.objects.filter().order_by('-rating')
+        return ctx
 
-class CreateTestView(TeconBase):
+
+class TestListView(generic.ListView):
+    template_name = 'tecon/test_list.html'
+    model = Trial
+
+    def get_context_data(self, **kwargs):
+        ctx = super(TestListView, self).get_context_data(**kwargs)
+        ctx['tests'] = self.filter_qs(ctx['object_list'])
+        ctx['category'] = self.get_category()
+        ctx['categories'] = Category.objects.all()
+        return ctx
+
+    def filter_qs(self, qs):
+        category = self.get_category()
+        if category:
+            categories = category.get_descendants(include_self=True)
+            qs = qs.filter(category__in=categories)
+        order = self.request.GET.get('order', '-id')
+        if order:
+            qs = qs.order_by(order)
+        return qs
+
+    def get_category(self):
+        category_id = self.request.GET.get('category_id', None)
+        if category_id:
+            category_qs = Category.objects.filter(id=category_id)[:1]
+            if category_qs:
+                return category_qs[0]
+        return None
+
+
+class CreateTestView(LoginRequiredMixin, generic.TemplateView):
     template_name = "tecon/create_test.html"
 
     def get_context_data(self, **kwargs):
@@ -44,7 +76,7 @@ class CreateTestView(TeconBase):
         return self.render_to_response(ctx)
 
 
-class UserTestsView(TeconBase):
+class UserTestsView(generic.TemplateView):
     template_name = "tecon/user_tests.html"
 
     def get_context_data(self, **kwargs):
@@ -54,7 +86,7 @@ class UserTestsView(TeconBase):
         return ctx
 
 
-class TestDetailView(TeconBase):
+class TestDetailView(generic.TemplateView):
     template_name = "tecon/test_details.html"
 
     def get_context_data(self, **kwargs):
@@ -64,7 +96,7 @@ class TestDetailView(TeconBase):
         return ctx
 
 
-class EditTestView(TeconBase):
+class EditTestView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'tecon/edit_test.html'
 
     def get_context_data(self, **kwargs):
