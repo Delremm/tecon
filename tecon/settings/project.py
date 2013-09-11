@@ -48,7 +48,10 @@ INSTALLED_APPS += (
     'filer',
     'mptt',
     'easy_thumbnails',
+#    https://github.com/mbi/django-rosetta
+    'rosetta',
 
+    'django.contrib.flatpages',
     'django.contrib.admin',
 )
 
@@ -119,6 +122,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.doc.XViewMiddleware',
     'django.middleware.common.CommonMiddleware',
 #    'vk_iframe.middleware.LoginRequiredMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 )
 
 # 'vk_iframe.middleware.LoginRequiredMiddleware' anauthenticated urls
@@ -141,6 +145,10 @@ HAYSTACK_CONNECTIONS = {
         'PATH': os.path.join(ROOT_DIR, 'whoosh_index'),
     },
 }
+
+# https://github.com/mbi/django-rosetta
+
+YANDEX_TRANSLATE_KEY = 'trnsl.1.1.20130911T031328Z.d74fa7ff2d9e00bb.ee68816b4518527186d261a097ff4482ea058504'
 
 from allauth_settings import *
 LOGIN_REDIRECT_URL = '/tecon/'

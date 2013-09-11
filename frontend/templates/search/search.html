@@ -2,19 +2,9 @@
 
 {% block content %}
     <h2>Поиск</h2>
-<div class="row">
-    <div class="span4">
-        <a href="{% url 'tecon:main' %}" class="btn">На главную</a>
+    <div class="row">
+        {% include 'tecon/partials/search_header.html' %}
     </div>
-    <div class="span4">
-        {% if user.is_authenticated %}
-            <a href="{% url 'tecon:user_tests' %}" class="btn">Мои тесты</a>
-        {% endif %}
-    </div>
-    <div class="span4">
-        Поиск: <input type="text">
-    </div>
-</div>
 <hr>
     <form method="get" action=".">
         <div>

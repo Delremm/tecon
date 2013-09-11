@@ -4,10 +4,6 @@
 {% block body_attrs %}ng-app="teconApp"{% endblock %}
 {% block content %}
   <div class="row">
-    {% include 'tecon/partials/search_header.html' %}
-    <hr>
-  </div>
-  <div class="row">
     <form action="{% url 'tecon:create_test' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ test_form.as_p }}

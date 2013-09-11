@@ -3,9 +3,6 @@
 {% block body_attrs %}ng-app="teconApp" ng-cloak{% endblock %}
 {% block content %}
   <div class="row">
-    {% include 'tecon/partials/search_header.html' %}
-  </div>
-  <div class="row">
     <a href="{% url 'tecon:main' %}" class="btn">на главную</a>
     <hr>
     <h2>{{ test.title }}</h2>

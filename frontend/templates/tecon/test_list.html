@@ -3,11 +3,7 @@
 
 {% block content %}
 <div class="row">
-    {% include 'tecon/partials/search_header.html' %}
-</div>
-<hr>
-<div class="row">
-    <div class="span3">
+    <div class="col-md-3">
         <div>
             <form method="GET">
                 <select id="sort" name="order" onchange="this.form.submit()" class="input-medium">
@@ -41,17 +37,29 @@
             </ul>
         </div>
     </div>
-    <div class="span9">
+    <div class="col-md-9">
+        <div class="row">
+            <div class="col-md-3">
+            название
+            </div>
+            <div class="col-md-6">
+            описание
+            </div>
+            <div class="col-md-3">
+            дата создания
+            </div>
+        </div>
+        <hr>
         {% for test in tests %}
             <div class="row">
-                <div class="span4">
+                <div class="col-md-3">
                 <a href="{% url 'tecon:test_details' test_id=test.id %}">{{ test.title }}</a>
                 </div>
-                <div class="span5"> создан: {{ test.created }}
-                </div>
-            </div>
-            <div class="row">
+                <div class="col-md-6">
                 {{ test.description }}
+                </div>
+                <div class="col-md-3"> {{ test.created }}
+                </div>
             </div>
         {% endfor %}
     </div>

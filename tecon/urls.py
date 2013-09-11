@@ -31,8 +31,13 @@ urlpatterns = patterns('',
     # SEO API's
     url(r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
     url(r'^robots.txt$', TextFileView.as_view(content_type='text/plain', template_name='robots.txt')),
-
 )
+
+# https://github.com/mbi/django-rosetta
+if 'rosetta' in settings.INSTALLED_APPS:
+    urlpatterns += patterns('',
+        url(r'^rosetta/', include('rosetta.urls')),
+    )
 
 if settings.DEBUG:
     urlpatterns.insert(0,

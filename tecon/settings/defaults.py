@@ -10,6 +10,9 @@ DEBUG          = True
 TEMPLATE_DEBUG = DEBUG
 TEMPLATE_STRING_IF_INVALID = ''
 
+# Path autodetection
+SRC_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+ROOT_DIR = SRC_DIR  # os.path.dirname(SRC_DIR)
 
 ## --- Internal settings
 
@@ -24,10 +27,7 @@ LANGUAGE_CODE = 'ru-RU'
 LANGUAGES = [
     ('ru', 'Russian'),
 ]
-
-# Path autodetection
-SRC_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
-ROOT_DIR = SRC_DIR  # os.path.dirname(SRC_DIR)
+LOCALE_PATHS = (os.path.join(ROOT_DIR, 'locale'), )
 
 # Paths
 MEDIA_ROOT   = ROOT_DIR + '/web/media/'
@@ -98,11 +98,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'KEY_PREFIX': 'tecon.local',
-        'LOCATION': '127.0.0.1:11211',
-        'TIMEOUT': 24*3600
-    },
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'tecon_cache_table',
+    }
 }
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'

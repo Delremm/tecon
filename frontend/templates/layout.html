@@ -6,7 +6,7 @@
     {% include 'partials/nav_accounts.html' %}
 
     {% block content_wrapper %}
-    <div class="container-fluid" id="page">
+    <div class="container" id="page">
         {% block page_inner %}
         <div class="page_inner">
             {% block header %}
@@ -17,7 +17,15 @@
             {% endblock %}
             <div class="content">
                 {% block subheader %}{% endblock subheader %}
-                <div id="content_inner">{% block content %}{% endblock %}</div>
+                <div id="content_inner">
+                {% block content_header %}
+                    <div class="row">
+                        {% include 'tecon/partials/search_header.html' %}
+                    </div>
+                    <hr>
+                {% endblock %}
+                {% block content %}{% endblock %}
+                </div>
             </div>
         </div>
         {% endblock %}

@@ -2,10 +2,6 @@
 
 {% block content %}
 <div class="row">
-    {% include 'tecon/partials/search_header.html' %}
-</div>
-<hr>
-<div class="row">
     <form action='{% url "tecon:delete_test" object.id %}' method='post'>
         {% csrf_token %}
         <h4>Название теста: </h4><p>{{ object.title }}</p>

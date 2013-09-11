@@ -13,12 +13,16 @@ from tecon_app.models import Trial
 class TeconView(generic.TemplateView):
     template_name = "tecon/main.html"
 
+    #number of tests in last_tests list on the main page
+    LAST_GOOD_TESTS_NUM = 15
+
     def get_context_data(self, **kwargs):
         ctx = super(
             TeconView, self).get_context_data(**kwargs)
         ctx['categories'] = Category.objects.all()
         ctx['last_good_tests'] = Trial.objects.filter(
-            status=Trial.STATUS.good).order_by('-created')
+            status=Trial.STATUS.good
+        ).order_by('-created')[:self.LAST_GOOD_TESTS_NUM]
         #ctx['top_rated_tests'] = Trial.objects.filter().order_by('-rating')
         return ctx
 
