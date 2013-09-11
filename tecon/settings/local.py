@@ -6,7 +6,7 @@ Local settings for development.
 from .project import INSTALLED_APPS, MIDDLEWARE_CLASSES
 
 # Output to console
-import logging, sys
+import logging, sys, os
 #logging.basicConfig(level=logging.DEBUG, stream=sys.stderr)
 
 # Database to use
@@ -18,6 +18,11 @@ DATABASES = {
         'PASSWORD': '',
     },
 }
+
+SRC_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+ROOT_DIR = SRC_DIR  # os.path.dirname(SRC_DIR)
+MEDIA_ROOT   = ROOT_DIR + '/web/media/'
+STATIC_ROOT = ROOT_DIR + '/web/static/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

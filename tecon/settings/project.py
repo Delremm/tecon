@@ -11,7 +11,7 @@ ADMINS = (
 )
 MANAGERS = ADMINS
 
-DEFAULT_FROM_EMAIL = 'sysadmin@default.com'
+DEFAULT_FROM_EMAIL = 'admin@tec0.ru'
 EMAIL_SUBJECT_PREFIX = '[Django][tecon] '
 
 # Database to use
@@ -20,12 +20,17 @@ DATABASES = {
         'ENGINE':   'django.db.backends.mysql',
         'NAME':     'tecon',
         'USER':     'tecon',
-        'PASSWORD': '',
+        'PASSWORD': 'tecon1',
         'OPTIONS':  {'autocommit': True,},   # Stop that "current transaction is aborted" error
     },
 }
 
 SECRET_KEY = '+3d$)xhp6za+%8&=#*l&e#u!hz-9q)dv9_jjg%s=r4z5g!3xi#'
+
+
+MEDIA_ROOT = os.path.abspath(os.path.join(ROOT_DIR, '..', 'tecon_media'))
+STATIC_ROOT = os.path.abspath(os.path.join(ROOT_DIR, '..', 'tecon_static'))
+
 
 # Apps to use
 INSTALLED_APPS += (
