@@ -62,7 +62,7 @@ def install_app():
             'virtualenv': '%s/%s' % (env.virtualenv_dir, env.project),
             'port': env.app_port,
             'user': env.user,
-            'supervisor_dir': direnv.supervisor_dir,
+            'supervisor_dir': env.supervisor_dir,
         }
     )
     upload_template(
