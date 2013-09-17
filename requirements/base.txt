@@ -27,3 +27,5 @@ django-rosetta==0.7.2
 #search
 django-haystack==2.1.0
 Whoosh==2.5.2
+
+django-allauth==0.13.0

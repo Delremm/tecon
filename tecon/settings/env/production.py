@@ -9,7 +9,7 @@ DATABASES = {
         'ENGINE':   'django.db.backends.mysql',
         'NAME':     'tecon',
         'USER':     'tecon',
-        'PASSWORD': '',
+        'PASSWORD': 'tecon1',
     },
 }
 
@@ -18,7 +18,8 @@ TEMPLATE_LOADERS = (
 )
 
 ALLOWED_HOSTS = (
-    '.project-domain-name.tld',
+    'tec0.ru',
+    'www.tec0.ru'
 )
 
 CACHES['default']['KEY_PREFIX'] = '.production'

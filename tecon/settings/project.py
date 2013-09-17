@@ -20,8 +20,7 @@ DATABASES = {
         'ENGINE':   'django.db.backends.mysql',
         'NAME':     'tecon',
         'USER':     'tecon',
-        'PASSWORD': 'tecon1',
-        'OPTIONS':  {'autocommit': True,},   # Stop that "current transaction is aborted" error
+        'PASSWORD': 'tecon1'
     },
 }
 

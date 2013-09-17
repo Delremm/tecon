@@ -13,3 +13,4 @@ dist/
 docs/_build/
 /env/
 settings/local.py
+deployment_fabs/fabsettings.py
