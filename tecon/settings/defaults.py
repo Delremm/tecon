@@ -30,11 +30,14 @@ LANGUAGES = [
 LOCALE_PATHS = (os.path.join(ROOT_DIR, 'locale'), )
 
 # Paths
-MEDIA_ROOT   = ROOT_DIR + '/web/media/'
+#MEDIA_ROOT   = ROOT_DIR + '/web/media/'
 MEDIA_URL    = '/media/'        # Must end with /
 ROOT_URLCONF = 'tecon.urls'
 
-STATIC_ROOT = ROOT_DIR + '/web/static/'
+#STATIC_ROOT = ROOT_DIR + '/web/static/'
+
+MEDIA_ROOT = os.path.abspath(os.path.join(ROOT_DIR, '..', 'tecon_media'))
+STATIC_ROOT = os.path.abspath(os.path.join(ROOT_DIR, '..', 'tecon_static'))
 STATIC_URL  = '/static/'
 
 SESSION_COOKIE_HTTPONLY = True  # can't read cookie from JavaScript

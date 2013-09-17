@@ -142,7 +142,6 @@ def sync_app():
     with cd(env.project_dir):
         run('git pull')
         #_ve_run(env.project, "easy_install -i http://downloads.egenix.com/python/index/ucs4/ egenix-mx-base")
-        _ve_run(env.project, "python manage.py createcachetable tecon_cache_table")
         _ve_run(env.project, "python manage.py syncdb")
         _ve_run(env.project, "python manage.py migrate")
         _ve_run(env.project, "python manage.py collectstatic")
@@ -165,7 +164,7 @@ def reload_app(arg=None):
         with cd(env.project_dir):
             #_ve_run(env.project, "easy_install -i http://downloads.egenix.com/python/index/ucs4/ egenix-mx-base")
             _ve_run(env.project, "pip install -r requirements/production.txt")
-        
+            _ve_run(env.project, "python manage.py createcachetable tecon_cache_table")
         sync_app()
 
     restart_app()
