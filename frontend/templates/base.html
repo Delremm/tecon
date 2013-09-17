@@ -62,12 +62,10 @@
 
         {# Local scripts #}
         {% block scripts %}
-            {% compress js %}
             <script src="{% static "frontend/js/app.js" %}" type="text/javascript" charset="utf-8"></script>
             <script src="{% static "frontend/js/controllers.js" %}" type="text/javascript" charset="utf-8"></script>
             <script src="{% static "frontend/js/services.js" %}" type="text/javascript" charset="utf-8"></script>
             <script src="{% static "frontend/js/scripts.js" %}" type="text/javascript" charset="utf-8"></script>
-            {% endcompress %}
         {% endblock %}
         {# Additional JS scripts #}
         {% block extrascripts %}{% endblock %}
