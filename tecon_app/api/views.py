@@ -40,6 +40,7 @@ class TestViewSet(viewsets.ModelViewSet):
 class FileUploadView(views.APIView):
 
     def post(self, request, *args, **kwargs):
+        print 'hello', request.FILES
         path = self.handle_uploaded_file(request.FILES.values()[0])
         return Response(str(path.replace(
             settings.MEDIA_ROOT, settings.MEDIA_URL)), status=202)
