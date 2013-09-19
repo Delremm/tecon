@@ -1,12 +1,21 @@
 {% extends "tecon/tecon_base.html" %}
 {% load staticfiles %}
 
+{% block title %}Создание теста{% endblock %}
+{% block description %}
+    Страница создания теста. Здесь можно очень просто создать любой тест.
+{% endblock %}
+{% block keywords %}
+   создать тест, {{ common_keywords }}, написать тест, тест с проверкой
+{% endblock %}
+
 {% block body_attrs %}ng-app="teconApp"{% endblock %}
 {% block content %}
   <div class="row">
     <form action="{% url 'tecon:create_test' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ test_form.as_p }}
+
     {% include 'tecon/partials/create_edit_test.html' %}
     <hr>
     <input type="submit" value="Submit" class="btn btn-primary"/>
@@ -14,8 +23,6 @@
     <hr>
   </div>
 {% endblock %}
-
-
 
 {# Additional JS scripts #}
 {% block extrascripts %}

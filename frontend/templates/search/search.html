@@ -2,17 +2,13 @@
 
 {% block content %}
     <h2>Поиск</h2>
-    <div class="row">
-        {% include 'tecon/partials/search_header.html' %}
-    </div>
-<hr>
+    <hr>
     <form method="get" action=".">
         <div>
             {{ form.as_p }}
             <p>
                 <input type="submit" value="Поиск">
             </p>
-
         </div>
 
         {% if query %}

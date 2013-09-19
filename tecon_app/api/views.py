@@ -53,5 +53,5 @@ class FileUploadView(views.APIView):
         return file_path
 
     def by_date(self, filename):
-        datepart = force_unicode(datetime.datetime.now().strftime("%Y/%m/%d"))
+        datepart = force_unicode(datetime.datetime.now().strftime("%Y/%m/%d/%H/%M"))
         return os.path.join(datepart, get_valid_filename(filename))

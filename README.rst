@@ -14,6 +14,20 @@ Prerequisites
 
 see in ./requirements/ folder
 
+
+TODO
+~~~~
+
+Pictures for answers;
+immidiate answer;
+show answers with green color on right questions;
+various result depends on correct number of answers;
+
+create page has too many requests for categories
+
+VIDEO on the main page
+time limit to answer questions.
+
 Installation
 ------------
 

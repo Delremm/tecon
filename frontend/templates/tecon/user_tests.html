@@ -1,5 +1,13 @@
 {% extends "tecon/tecon_base.html" %}
 
+{% block title %}Тесты созданые мной{% endblock %}
+{% block description %}
+    Тесты созданые пользователем.
+{% endblock %}
+{% block keywords %}
+   мои тесты, {{ common_keywords }}
+{% endblock %}
+
 {% block content %}
 {% for test in tests %}
     <div class="row">

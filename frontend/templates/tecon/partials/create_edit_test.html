@@ -2,7 +2,7 @@
 
     {% verbatim %}
     <div ng-controller="CreateEditTestCntl">
-    <div>
+    <div class="ng-cloak">
     <label>Картинка для теста:</label>
             <span class="btn btn-success fileinput-button">
                 <i class="glyphicon glyphicon-plus"></i>
@@ -17,10 +17,10 @@
             </div>
     </div>
     <hr>
-    <div ng-repeat="question in new_test_data.questions">
+    <div ng-repeat="question in new_test_data.questions" class="ng-cloak">
       <div class="tecon_question" id="tecon_question_{{ $index }}">
         <h3>Вопрос {{$index+1}}</h3>
-        <input type="text" ng-model="question.title" required class="input-xxlarge">
+        <input type="text" ng-model="question.title" required class="form-control">
         <a href="#tecon_qestion_{{ $index-1 }}" ng-click="remove_question(question)" class="tecon_remove_question">
             удалить вопрос</a>
         <div>
@@ -47,7 +47,7 @@
           <div ng-repeat="variant in question.variants" class="tecon_question_variant">
             <label>{{ $index + 1 }} вариант ответа</label>
             <div>
-                <input type="text" ng-model="variant.text" required class="input-xlarge">
+                <input type="text" ng-model="variant.text" required class="form-control">
                 <a href="#tecon_add_variant_{{$index}}" ng-click="remove_variant(variant, question)">x</a>
                 <div ng-click="set_answer($index, variant, $parent.$index, question)">
                 <span class="is_answer_label">Является ответом</span>
@@ -62,7 +62,7 @@
     </div>
     <hr>
     <a href="#add_question" ng-click="add_question()" id="add_question" class="btn">добавить вопрос</a>
-    <input type="hidden" name="data" value="{{ new_test_data }}">
+    <input type="hidden" name="data" value="{{ new_test_data }}" class="ng-cloak">
     </div>
     {% endverbatim %}
 

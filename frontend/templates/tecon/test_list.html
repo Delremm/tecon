@@ -1,6 +1,13 @@
 {% extends "tecon/tecon_base.html" %}
 {% load mptt_tags %}
 
+{% block title %}Список тестов{% endblock %}
+{% block description %}
+    Список тестов с фильтрацией. Отображение всех созданных тестов.
+{% endblock %}
+{% block keywords %}
+   все тесты, фильтрация тестов, {{ common_keywords }}
+{% endblock %}
 {% block content %}
 <div class="row">
     <div class="col-md-3">
@@ -42,10 +49,10 @@
             <div class="col-md-3">
             название
             </div>
-            <div class="col-md-6">
+            <div class="col-md-5">
             описание
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
             дата создания
             </div>
         </div>
@@ -55,10 +62,10 @@
                 <div class="col-md-3">
                 <a href="{% url 'tecon:test_details' test_id=test.id %}">{{ test.title }}</a>
                 </div>
-                <div class="col-md-6">
-                {{ test.description }}
+                <div class="col-md-5">
+                {{ test.description|truncatewords:5 }}
                 </div>
-                <div class="col-md-3"> {{ test.created }}
+                <div class="col-md-4"> {{ test.created }}
                 </div>
             </div>
         {% endfor %}

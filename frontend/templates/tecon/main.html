@@ -1,13 +1,18 @@
 {% extends "tecon/tecon_base.html" %}
 {% load mptt_tags %}
 
+{% block title %}{{ site }} - {{ site_name }}{% endblock %}
+{% block description %}
+    Бесплатное веб-приложение для создание тестов.
+{% endblock %}
+
 {% block content %}
 <div class="row">
     <div class="col-md-4">
         <h4>Категории</h3>
         <ul class="root">
             <li>
-            <a href='{% url "tecon:tests" %}' >все тесты</a>
+            <a href='{% url "tecon:tests" %}' class="lead">все тесты</a>
             </li>
             {% recursetree categories %}
                 <li>

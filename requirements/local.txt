@@ -1,3 +1,4 @@
 # Debugging
 -r base.txt
 django-debugtools >= 1.1.0
+django-debug-toolbar==0.9.4

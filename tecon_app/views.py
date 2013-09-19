@@ -75,6 +75,7 @@ class CreateTestView(LoginRequiredMixin, generic.TemplateView):
             trial.description = form.cleaned_data['description']
             trial.user = request.user
             trial.data = request.POST.get('data', '')
+            trial.category = form.cleaned_data['category']
             trial.save()
             request.session['created_test_id'] = trial.id
             return HttpResponseRedirect(reverse('tecon:success_test_creation'))
@@ -100,7 +101,7 @@ class UserTestsView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         ctx = super(
             UserTestsView, self).get_context_data(**kwargs)
-        ctx['tests'] = Trial.objects.filter(user=self.request.user)
+        ctx['tests'] = Trial.objects.filter(user=self.request.user).order_by('-id')
         return ctx
 
 

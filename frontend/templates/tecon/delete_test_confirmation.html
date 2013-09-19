@@ -1,5 +1,9 @@
 {% extends "tecon/tecon_base.html" %}
 
+{% block title %}Подтверждение удаления теста: {{ object.title }}{% endblock %}
+{% block description %}
+    Подтверждение удаления теста
+{% endblock %}
 {% block content %}
 <div class="row">
     <form action='{% url "tecon:delete_test" object.id %}' method='post'>

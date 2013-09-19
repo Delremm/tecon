@@ -8,5 +8,6 @@ def site(request):
         'site_name': settings.SITE_VERBOSE_NAME,
         'site_tagline': settings.SITE_TAGLINE,
         'use_less': getattr(settings, 'USE_LESS', False),
-        'config': settings.SITE_CONFIG
+        'config': settings.SITE_CONFIG,
+        'common_keywords': settings.COMMON_KEYWORDS
     }

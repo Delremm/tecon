@@ -7,7 +7,7 @@ from tecon_app.models import Trial
 class TrialForm(ModelForm):
     class Meta:
         model = Trial
-        fields = ['title', 'description']
+        fields = ['title', 'description', 'category']
         widgets = {
             'title': TextInput(attrs={'required': ''}),
         }
