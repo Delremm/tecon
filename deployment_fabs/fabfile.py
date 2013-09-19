@@ -178,6 +178,19 @@ def restart_app():
         _ve_run('supervisor','supervisorctl reread && supervisorctl reload')
         _ve_run('supervisor','supervisorctl restart %s' % env.project)
 
+def stop_app():
+    with cd(env.supervisor_dir):
+        #_ve_run('supervisor','supervisorctl -c supervisord.conf')
+        _ve_run('supervisor','supervisorctl reread && supervisorctl reload')
+        _ve_run('supervisor','supervisorctl stop %s' % env.project)
+
+def start_app():
+    with cd(env.supervisor_dir):
+        #_ve_run('supervisor','supervisorctl -c supervisord.conf')
+        _ve_run('supervisor','supervisorctl reread && supervisorctl reload')
+        _ve_run('supervisor','supervisorctl start %s' % env.project)
+
+
 ### Helper functions
 
 def create_ve(name):

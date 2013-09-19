@@ -18,7 +18,8 @@ TEMPLATE_LOADERS = (
 )
 
 ALLOWED_HOSTS = (
-    'tecon.testing.mycompany.tld',
+    'tec0.ru',
+    'www.tec0.ru'
 )
 
 CACHES['default']['KEY_PREFIX'] = '.beta'
