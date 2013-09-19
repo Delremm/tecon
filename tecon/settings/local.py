@@ -21,8 +21,8 @@ DATABASES = {
 
 SRC_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 ROOT_DIR = SRC_DIR  # os.path.dirname(SRC_DIR)
-MEDIA_ROOT   = ROOT_DIR + '/web/media/'
-STATIC_ROOT = ROOT_DIR + '/web/static/'
+MEDIA_ROOT   = ROOT_DIR + '/web/media'
+STATIC_ROOT = ROOT_DIR + '/web/static'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

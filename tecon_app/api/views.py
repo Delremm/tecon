@@ -40,9 +40,7 @@ class TestViewSet(viewsets.ModelViewSet):
 class FileUploadView(views.APIView):
 
     def post(self, request, *args, **kwargs):
-        print 'hello', request.FILES
         path = self.handle_uploaded_file(request.FILES.values()[0])
-        print 'path', path
         return Response(str(path.replace(
             settings.MEDIA_ROOT, settings.MEDIA_URL)), status=202)
 
@@ -51,10 +49,9 @@ class FileUploadView(views.APIView):
 
     def handle_uploaded_file(self, file_obj):
         path = '%s%s' % (settings.MEDIA_ROOT, self.by_date(file_obj.name))
-        print 'path_to save', path
         file_path = default_storage.save(path, file_obj)
         return file_path
 
     def by_date(self, filename):
-        datepart = force_unicode(datetime.datetime.now().strftime("%Y/%m/%d/%H/%M"))
+        datepart = force_unicode(datetime.datetime.now().strftime("/%Y/%m/%d/%H/%M"))
         return os.path.join(datepart, get_valid_filename(filename))
