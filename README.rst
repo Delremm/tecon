@@ -6,14 +6,13 @@ Tecon Project
 About
 -----
 
-Describe your project here.
+Test constructor. Allow to create and pass various tests, for example academic tests.
+
 
 Prerequisites
 -------------
 
-- Python >= 2.6
-- pip
-- virtualenv (virtualenvwrapper is recommended)
+see in ./requirements/ folder
 
 Installation
 ------------
@@ -31,18 +30,10 @@ To setup a local development environment::
 Compiling CSS files
 ~~~~~~~~~~~~~~~~~~~
 
-To compile SASS_ files::
+To compile LESS_ files::
 
-    gem install compass bootstrap-sass oily_png guard-livereload guard-compass
+    lessc frontend/static/frontend/less/styles.less > frontend/static/frontend/css/styles.css 
 
-    guard
-
-To enable LiveReload_ of ``*.css`` files during development, install a browser plugin:
-
-* Firefox (2.0.9 dev release): https://github.com/siasia/livereload-extensions/downloads
-* Everyone else: http://help.livereload.com/kb/general-use/browser-extensions
-
-And toggle the "LiveReload" button in the browser at the desired page.
 
 License
 -------
@@ -52,8 +43,6 @@ Describe project license here.
 
 .. Add links here:
 
-.. _Compass: http://compass-style.org/
 .. _django-fluent: http://django-fluent.org/
 .. _LiveReload: http://livereload.com/
 .. _guard-livereload: https://github.com/guard/guard-livereload
-.. _SASS: http://sass-lang.com/

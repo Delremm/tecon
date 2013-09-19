@@ -11,7 +11,7 @@ urlpatterns = patterns(
     url(r'^my_tests/$', views.UserTestsView.as_view(), name="user_tests"),
     url(
         r'^successfully_created/$',
-        TemplateView.as_view(template_name='tecon/successfully_created.html'),
+        views.SuccessfullyCreatedView.as_view(),
         name='success_test_creation'),
     url(
         r'^tests/(?P<test_id>\d+)/$',

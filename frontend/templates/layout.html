@@ -3,32 +3,22 @@
 {% load compress %}
 
 {% block layout %}
-    {% include 'partials/nav_accounts.html' %}
 
     {% block content_wrapper %}
-    <div class="container" id="page">
-        {% block page_inner %}
-        <div class="page_inner">
-            {% block header %}
-            <div class="page-header action" onclick="window.location={% url 'tecon:main' %}">
-                <h1>{% block headertext %}{{ site_name }}</h1>
-                <h4>{{ site_tagline }}{% endblock %}</h4>
-            </div>
-            {% endblock %}
-            <div class="content">
-                {% block subheader %}{% endblock subheader %}
-                <div id="content_inner">
-                {% block content_header %}
-                    <div class="row">
-                        {% include 'tecon/partials/search_header.html' %}
-                    </div>
-                    <hr>
-                {% endblock %}
-                {% block content %}{% endblock %}
-                </div>
-            </div>
-        </div>
+    <div id="wrap">
+        {% include 'partials/nav_accounts.html' %}
+        {% block header %}
+            {% include 'partials/header.html' %}
         {% endblock %}
+        <div class="container">
+            {% block content_header %}
+                <div class="row">
+                    {% include 'tecon/partials/search_header.html' %}
+                </div>
+                <hr>
+            {% endblock %}
+            {% block content %}{% endblock %}
+        </div>
     </div>
     {% endblock %}
 

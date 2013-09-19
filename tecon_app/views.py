@@ -76,8 +76,22 @@ class CreateTestView(LoginRequiredMixin, generic.TemplateView):
             trial.user = request.user
             trial.data = request.POST.get('data', '')
             trial.save()
+            request.session['created_test_id'] = trial.id
             return HttpResponseRedirect(reverse('tecon:success_test_creation'))
         return self.render_to_response(ctx)
+
+
+class SuccessfullyCreatedView(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'tecon/successfully_created.html'
+
+    def get_context_data(self, **kwargs):
+        ctx = super(SuccessfullyCreatedView, self).get_context_data(**kwargs)
+        created_test_id = self.request.session.get('created_test_id', None)
+        if created_test_id:
+            ctx['test_url'] = reverse(
+                'tecon:test_details', kwargs=dict(test_id=created_test_id))
+        ctx['test'] = self.request.session.get('created_test', None)
+        return ctx
 
 
 class UserTestsView(generic.TemplateView):
@@ -125,7 +139,6 @@ class EditTestView(LoginRequiredMixin, generic.TemplateView):
             trial.title = form.cleaned_data['title']
             trial.description = form.cleaned_data['description']
             trial.data = request.POST.get('data', '')
-            print trial, trial.id
             trial.save()
             return HttpResponseRedirect(reverse('tecon:success_test_creation'))
         return self.render_to_response(ctx)

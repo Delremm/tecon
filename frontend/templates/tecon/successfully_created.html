@@ -5,6 +5,11 @@
   <div class="row">
     <hr>
     <h2>Тест успешно создан.</h2>
+    {% if test_url %}
+    <div><a href="{{ test_url }}">Пройти?</a>
+    <p> ссылка на тест: {{ ROOT_URL}}{{ test_url }}</p>
+    </div>
+    {% endif %}
     <hr>
   </div>
 {% endblock %}
