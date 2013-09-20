@@ -5,8 +5,10 @@
             <ul class="nav navbar-nav">   
                 <li><a href="/about/">{% trans "О нас" %}</a></li>
             </ul>
+            {% if user.is_anonymous or user.email %}
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="http://insighty.ru/">insighty.ru</a></li>
             </ul>
+            {% endif %}
     {% endblock %}
 </div>
